@@ -1,0 +1,150 @@
+#include<stdio.h>
+#include<malloc.h>
+
+
+
+int Board[8][8]={0};
+int direction[9][9]={{0,-2,-1,1,2,2,1,-1,-2},{0,1,2,2,1,-1,-2,-2,-1}};
+
+
+typedef struct Piece{
+	int x;
+	int y;
+	int director;
+}Piece;
+
+
+
+
+typedef struct stack{
+	Piece data;
+	struct stack * next;
+}Stack,*hStack;
+
+
+
+
+int Feasible(int x,int y);
+int  NextFeasible(Piece Cur);
+void output();
+Piece Pop_Stack(Stack *top);;
+int Feasible(int x,int y);
+int  Push_Stack(Stack *top,Piece x);
+Piece Pop_Stack(Stack *top);
+void IntiStack(Stack **top);
+void output();;
+
+
+
+
+
+void output()
+{
+int i,j;
+for(i=0;i<8;i++)
+for(j=0;j<8;j++)
+{
+	if(j%8==0)
+	printf("\n");
+	printf("%3d",Board[i][j]);
+}
+
+}
+
+
+int Horse_Steps(Piece Cur,Stack* H){
+	Piece Next;
+	int k,Step=1,i=1;
+	Cur.director=0;
+	Board[Cur.x][Cur.y]=1;
+	while(Step<64)
+	{
+		
+		k=NextFeasible(Cur);
+		if(k!=0)
+		{
+		Cur.director=k;
+		Push_Stack(H,Cur);
+		
+		Next.x=Cur.x+direction[0][Cur.director];
+		Next.y=Cur.y+direction[1][Cur.director];
+		Next.director=0;
+		Cur=Next;
+		
+		Board[Cur.x][Cur.y]=(++Step);
+		printf("%d#\t\n",Board[Cur.x][Cur.y]);
+
+		
+		}
+		else{
+			Board[Cur.x][Cur.y]=0;
+			Cur=Pop_Stack(H);
+			Step--;	
+		}
+		
+		
+		
+	}	
+	
+}
+
+
+int Feasible(int x,int y){
+	if((0<=x)&&(x<8)&&(0<=y)&&(y<8)&&(Board[x][y]==0))
+	return 1;
+	return 0;
+}
+
+int  NextFeasible(Piece Cur){
+	int x,y,i;
+	for(i=Cur.director+1;i<=8;i++){
+		x=Cur.x+direction[0][i];
+		y=Cur.y+direction[1][i];
+		if(Feasible(x,y))
+		return i;	
+	}
+	return 0;
+}
+
+
+int  Push_Stack(Stack *top,Piece x)
+{
+	hStack p;
+	p=(hStack)malloc(sizeof(Stack));
+	p->data=x;
+	p->next=top->next; 
+	top->next=p;
+	return 1;
+	
+}
+Piece Pop_Stack(Stack *top){
+	Piece x1;
+	Stack *p=top->next;
+	top->next=p->next;
+	x1=p->data;
+	free(p);
+	return x1;
+}
+
+void IntiStack(Stack **top){
+	Stack *p;
+	p=(hStack)malloc(sizeof(Stack));
+	*top=p;
+	p->next=NULL;
+	
+}
+
+main()
+{
+	Stack *H;
+	Piece New;
+	IntiStack(&H);
+	printf("please input x y\n");
+	scanf("%d%d",&New.x,&New.y);
+	Horse_Steps(New,H);
+	output();
+	
+	
+}
+
+
