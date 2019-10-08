@@ -72,7 +72,7 @@ int Horse_Steps(Piece Cur,Stack* H){
 		Cur=Next;
 		
 		Board[Cur.x][Cur.y]=(++Step);
-		printf("%d#\t\n",Board[Cur.x][Cur.y]);
+		
 
 		
 		}
