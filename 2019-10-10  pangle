@@ -1,0 +1,49 @@
+#include<stdio.h>
+#include<string.h>
+#include<malloc.h>
+struct student{
+	char name[10];
+	struct student *next;
+}; 
+struct student * create()
+{
+	struct student *head,*current,*next;
+	char str[10];
+	char flag;
+	printf("please input name:\n");
+	scanf("%s",str);
+	getchar();
+	head=(struct student *)malloc(sizeof(struct student));
+	strcpy(head->name,str);
+	current=head;
+	printf("是否继续输入：");//"y"or"n"
+	scanf("%c",&flag);
+	while(flag!='n')
+	{
+		printf("please input name:\n");
+		scanf("%s",str);
+		getchar();
+		next=(struct student *)malloc(sizeof(student));
+		strcpy(next->name,str);
+		current->next=next;//上一个元素的指针指向下一个元素 
+		current=next;//当前元素的指针指向下一个元素
+		printf("是否继续输入：\n");
+		scanf("%c",&flag); 
+	}
+	current->next=NULL;//循环结束，当前指针指向最后一个元素，将最后一个元素指针赋为NULL 
+	return head;
+}
+main()
+{
+	struct student *p;
+	p=create();
+	while(1)
+	{
+		printf("%s\n",p->name);
+		if(p->next != NULL)
+		{
+			p=p->next;
+		}
+		else break;
+	}
+}
