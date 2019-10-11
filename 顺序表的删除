@@ -1,0 +1,13 @@
+int Delete_SeqList(SeqList*L,int i,ElemType*e)
+{
+    int j;
+    if(i<1||i>L->length)
+    {   printf("不存在第i个元素");
+        return ERROR;
+    }
+    *e=L->elem[i];
+    for(j=i;j<=L->length-1;j++)
+        L->elem[j]=L->elem[j+1];
+    L->length--；
+    return TRUE;
+}
