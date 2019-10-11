@@ -1,0 +1,7 @@
+int Location_SeqList(SeqList*L,ElemType x)
+{   int i=1;
+    while(i<=L->length&&L->elem[i]!=x)
+      i++;
+    if(i>L->length) return FALSE;
+    else return i;
+}
