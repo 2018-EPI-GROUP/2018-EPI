@@ -1,0 +1,4 @@
+void Init_SeqList(SeqList*L)
+{
+    L->length=0;
+}
