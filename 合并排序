@@ -1,0 +1,85 @@
+public class hebingpaixu {	             //定义类hebinpaixu
+	public static void mergeSort(int[] arr,int low,int high,int[] tmp){      //类中定义一个方法
+		if(low<high){
+
+			int mid = (low+high)/2;         //取数组长度的一半作为分界线
+
+			mergeSort(arr,low,mid,tmp);     //对左边序列进行归并排序
+
+			mergeSort(arr,mid+1,high,tmp);  //对右边序列进行归并排序
+
+			merge(arr,low,mid,high,tmp);    //合并两个有序序列
+
+		}
+
+	}
+	public static void merge(int[] arr,int low,int mid,int high,int[] tmp){     //类中定义一个方法
+
+		int i = 0;
+
+		int j = low,k = mid+1;  //j为左边序列的开头，k为右边序列的开头
+
+		while(j <= mid && k <= high){           //j不超过分界线且k不超过数组长度时进入循环
+
+			if(arr[j] < arr[k]){               //左右序列谁小取谁值放入tmp暂存数组里，然后右移一位
+
+				tmp[i++] = arr[j++];
+
+			}else{
+
+				tmp[i++] = arr[k++];
+
+			}
+
+		}
+
+		//若左边序列还有剩余，则将其全部拷贝进tmp[]中
+
+		while(j <= mid){                       //这意味着右边的已经排序好了，接下来只用把左边的放到tmp里面
+
+			tmp[i++] = arr[j++];
+
+		}
+
+		
+
+		while(k <= high){                     //这意味着左边的已经排好了，接下来只用把右边的放到tmp里面
+
+			tmp[i++] = arr[k++];
+
+		}
+
+		
+
+		for(int t=0;t<i;t++){                //把tmp里面的数据复制到arr数组里面
+
+			arr[low+t] = tmp[t];
+
+		}
+
+	}
+
+
+
+ 
+
+	public static void main(String[] args) {
+
+		int[] arr = {49,38,65,97,76,13,27}; //建一个一维数组
+
+		int[] tmp = new int[arr.length];    //分配一个临时数组
+
+		mergeSort(arr,0,arr.length-1,tmp);   //合并排序从arr数组的第一位到最后一位
+
+		for(int i=0;i<arr.length;i++){
+
+			System.out.print(arr[i]+" ");      //输出合并排序后的数组
+
+		}
+
+	}
+
+	
+
+	
+}
