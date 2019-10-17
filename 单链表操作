@@ -1,0 +1,119 @@
+typedef struct node
+{ int num;
+  int cla;
+  char name[20];
+  struct node *next;
+}LNode,*Linklist;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define N 3
+main()
+{ int i,q=0,n=0;
+  Linklist L=NULL;
+  LNode *s,*h,*y;
+  s=(LNode*)malloc(sizeof(LNode));
+  //读入存储学生信息
+  for(i=0;i<N;i++)
+  { scanf("%s",s->name);
+    scanf("%d%d",&s->num,&s->cla);
+	L=s;
+    s=(LNode*)malloc(sizeof(LNode));
+    s->next=L;
+  }
+  //输出所有学生信息
+  h=(LNode*)malloc(sizeof(LNode));
+  h=L;
+  while(h)
+  { printf("姓名：%s\n学号：%d\n班级：%d\n",h->name,h->num,h->cla);
+    q++;
+    if(q==N) break;
+    h=h->next;
+  }
+  //使用学生名字来查找相应信息
+  char x[20];
+  h=L;
+  printf("请输入想要查找学生的姓名:");
+  scanf("%s",&x);
+  while(h)
+	{ if(!strcmp(h->name,x))
+	  {    printf("姓名：%s\n学号：%d\n班级：%d\n",h->name,h->num,h->cla);
+	  	   q=0;
+	       break;
+	  }
+	  n++;
+	  if(n==N)
+	  { printf("不存在该姓名的学生\n");
+	    break;
+	  }
+	  h=h->next;
+	}
+  //使用位置来查找学生信息
+  printf("请输入想要查找学生的位置:");
+  scanf("%d",&q);
+  h=L;
+  n=0;
+  while(h)
+  { n++;
+	if(n==q)
+	{ printf("姓名：%s\n学号：%d\n班级：%d\n",h->name,h->num,h->cla);
+	  break;
+	}
+	if(n==N)
+	{ printf("不存在该位置的学生\n");
+	  break;
+	} 
+	h=h->next;
+  }
+  //在指定位置插入给定的学生信息 
+  printf("请输入想要插入学生信息的位置:");
+  scanf("%d",&q);
+  y=(LNode*)malloc(sizeof(LNode));
+  printf("请输入想要插入学生的信息：姓名，学号，班级\n");
+  scanf("%s",y->name);
+  scanf("%d%d",&y->num,&y->cla);
+  if(q>N+1) printf("输入插入位置有误\n");    //分为三种情况，输入插入位置有误 
+  else if(q==1)      //一种是插在第一个位置 
+  { y->next=L;
+    L=y;
+  }
+  else    //另一种，插在除链首的其他指定位置 
+  { s=L;
+    for(i=1;i<q-1;i++)
+    s=s->next;
+    y->next=s->next;
+    s->next=y;
+  }
+  h=L;q=0;     //再次输出所有学生信息，确认是否插入成功 
+  while(h)
+  { printf("姓名：%s\n学号：%d\n班级：%d\n",h->name,h->num,h->cla);
+    q++;
+    h=h->next;
+    if(q==N+1)
+    break;
+  }
+  //删除指定位置学生的信息 
+  printf("请输入想要删除学生信息的位置:");
+  scanf("%d",&q);
+  if(q>N+1)
+  printf("输入的想要删除学生的位置有误"); 
+  else if(q==1)
+  { h=L;
+    L=L->next;
+    free(h);
+  }
+  else
+  { h=L;
+    for(i=1;i<q-1;i++)
+	  h=h->next;
+	h->next=h->next->next; 
+  }
+  h=L;q=0;     //再次输出所有学生信息，确认是否删除成功 
+  while(h)
+  { printf("姓名：%s\n学号：%d\n班级：%d\n",h->name,h->num,h->cla);
+    q++;
+    h=h->next;
+    if(q==N)
+    break;
+  }
+}
